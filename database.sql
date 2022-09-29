@@ -22,7 +22,7 @@ INSERT INTO "category"
 CREATE TABLE "favs" (
     "id" SERIAL PRIMARY KEY,
     "url" VARCHAR (100) NOT NULL,
-    "category" VARCHAR (100) DEFAULT NULL
+    "cat_id" INT DEFAULT NULL
 );
 
 -- Default categories. You may change them :)
