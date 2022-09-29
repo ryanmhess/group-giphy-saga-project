@@ -16,7 +16,9 @@ import { takeEvery, put } from 'redux-saga/effects';
 // REDUCERS
 
 const searchResultReducer = (state = [], action) => {
-    // 'SET_SEARCH_RESULT' ???
+    if (action.type === 'SET_SEARCH_RESULT') {
+            return action.payload;
+    }
     return state
 }
 
@@ -43,6 +45,7 @@ const categoriesReducer = (state = [], action) => {
 
 //SAGAS
 function* rootSaga() {
+    yield takeEvery('SAGA.SEARCH_VALUE', searchValue)   //  triggers AXIOS GET to find the inital gifs based on search value
     yield takeEvery('SAGA.FETCH_SEARCH_RESULTS',fetchSearchResults); //triggers AXIOS GET /API/GIPHY
     yield takeEvery('SAGA.FETCH_FAVLIST',fetchFavList); //triggers AXIOS GET /fav table
     yield takeEvery('SAGA.FETCH_CATEGORIES',fetchCategories); //triggers AXIOS GET /fav table
@@ -50,6 +53,19 @@ function* rootSaga() {
     yield takeEvery('SAGA.SET_CATEGORY',setImageCategory); //triggers AXIOS PUT /fav table
 }
 
+function* searchValue(action) {
+    try {
+        console.log('in searchValue gen func with:', action.payload);
+        const searchVal = action.payload;
+        const searchRes = yield axios.get(`/search?searchVal=${searchVal}`);
+        yield put({
+            type: 'SET_SEARCH_RESULT',
+            payload: searchRes.data
+        });
+    } catch (err) {
+        console.log('err');
+    }
+}
 
     // SAGAS GET
 function* fetchSearchResults() {
@@ -91,11 +107,17 @@ function* fetchCategories() {
     }
 }
 
-function* addImageToFav() {
+function* addImageToFav(action) {
     try {
         //AXIOS POST to /fav table
             //payload is 'url' (?)
-
+        console.log('In addImageToFav generator.');
+        const url = action.payload
+        yield axios({
+            method: 'POST',
+            url: '/api/favorite',
+            data: { url }
+        });
         //pass to searchResultReducer 'SET_FAV_LIST' ???? do we do this after POST?
     } catch (err) {
         console.log('err');
@@ -120,9 +142,9 @@ function* setImageCategory(action) {
 const sagaMiddleware = createSagaMiddleware();
 const storeInstance = createStore(
     combineReducers({
-     favListReducer,
-     searchResultReducer,
-     categoriesReducer,
+        favListReducer,
+        searchResultReducer,
+        categoriesReducer,
     }),
     applyMiddleware(sagaMiddleware, logger),
 );
