@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './components/App/App.js';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import axios from 'axios';
@@ -14,6 +13,13 @@ import createSagaMiddleware from 'redux-saga';
 import { takeEvery, put } from 'redux-saga/effects';
 
 // REDUCERS
+
+const searchValue = (state = [], action) => {
+    if(action.type === 'SEARCH_VALUE') {
+        return action.payload;
+    }
+    return state;
+}
 
 const searchResultReducer = (state = [], action) => {
     // 'SET_SEARCH_RESULT' ???
@@ -97,9 +103,10 @@ function* setImageCategory() {
 const sagaMiddleware = createSagaMiddleware();
 const storeInstance = createStore(
     combineReducers({
-     favListReducer,
-     searchResultReducer,
-     categoriesReducer,
+        searchValue,
+        favListReducer,
+        searchResultReducer,
+        categoriesReducer,
     }),
     applyMiddleware(sagaMiddleware, logger),
 );
@@ -110,4 +117,4 @@ sagaMiddleware.run(rootSaga);
 ReactDOM.render(<Provider store={storeInstance}><App /></Provider>, 
     document.getElementById('root'));
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// ReactDOM.render(<App />, document.getElementById('root'));

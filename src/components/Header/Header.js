@@ -5,10 +5,13 @@ function Header() {
 
     const history = useHistory();
 
+
+    //  This function takes advatage of useHistory to navigate to a specified url.
     const mainPage = () => {
         history.push('/');
     }
 
+    //  This function takes advatage of useHistory to navigate to a specified url.
     const favPage = () => {
         history.push('/favpage');
     }
