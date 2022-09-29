@@ -1,34 +1,86 @@
 import React from 'react';
+
+import { useEffect } from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useState} from 'react';
+
 import FavImageCard from '../FavImageCard/FavImageCard.js';
 
 
-// MUI display
-
-const dummyObj = [
-    'https://media2.giphy.com/media/KUP5hlhpZZvFDj6C7p/200w.webp',
-    'https://media4.giphy.com/media/yYnhh4mNbjxVOI9jzL/200w.webp',
-	'https://media1.giphy.com/media/wvbZIfs10gYvYeu2BU/200w.webp',
-	'https://media3.giphy.com/media/MBZooTpa7pFuoKIrtm/giphy.webp',
-	'https://media3.giphy.com/media/joj9epQQPM7p26xySz/giphy.webp'
-];
-
-
-//setup MAP
-
-//setup MUI CARD
-
-// create DROPDOWN with category list.
-
-
 function FavPage() {
+   const dispatch = useDispatch();
+    const favList = useSelector(store => store.favListReducer);
+    const categoryList = useSelector(store => store.categoriesReducer);
+    //will use above to get favs after I GET/set them
+    const [selected, setSelected] = useState('');
+
+    useEffect(() => {
+        fetchFavList();
+        fetchCategories(); //does this make sense here?
+    }, []);
+
+    //to GET the current FAV LIST
+    const fetchFavList = () =>{
+        dispatch({
+            type: 'SAGA.FETCH_FAVLIST' 
+        })
+    }
+
+    //to get the category data from category table
+    //sending to reducer
+    const fetchCategories =() => {
+        dispatch({
+            type: 'SAGA.FETCH_CATEGORIES'
+        })
+
+    }
+
+    //for PUT route to change category
+    //Called on Button click"
+    const setImageCategory = () => {
+        dispatch({
+            type: 'SAGA.SET_CATEGORY'
+        })
+    }
+
+    const submit = () =>{
+        console.log(selected);
+    }
+
+    
     return (
         <div>
+//differences start here
+        <h1>I'm the FavPage</h1>
+        {favList.map(fav =>{
+            return(
+           <div>
+                <img key={fav.id} src={fav.url}></img>
+            <form>
+      <select
+            value={selected}
+            onChange={e => setSelected(e.target.value)}>
+        {categoryList.map((category) => (
+          <option value={category.id} key={category.id}>
+            {category.name}
+          </option>
+        ))}
+      </select>
+      <button type="button" onClick={submit}> Submit</button>
+    </form>
+    </div>
+            )
+        })}
+//continued here
             <h1>I'm the FavPage</h1>
             {dummyObj.map((img, i)=>(
                 <FavImageCard key={i} image={img} />
             ))}
+
         </div>
     );
 }
+
+
 
 export default FavPage;

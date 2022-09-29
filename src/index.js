@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import App from './components/App/App.js';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import axios from 'axios';
@@ -20,13 +21,24 @@ const searchResultReducer = (state = [], action) => {
 }
 
 const favListReducer = (state = [], action) => {
-    // 'SET_FAVLIST' ???
-    return state
-}
+    switch(action.type){
+        case 'ADD_FAV':
+            return [...state, action.payload]
+        case 'SET_FAVLIST':
+            return action.payload
+        default:
+            return state;
+    }
+    
+};
 
 const categoriesReducer = (state = [], action) => {
-    // 'SET_CATEGORYLIST' ???
-    return state
+    switch(action.type){
+        case 'SET_CATEGORIES':
+            return action.payload
+        default:
+            return state;
+    }
 }
 
 //SAGAS
@@ -42,7 +54,6 @@ function* rootSaga() {
     // SAGAS GET
 function* fetchSearchResults() {
     try {
-        //axios GET to API/GIPHY
 
         //pass to searchResultReducer 'SET_SEARCH_RESULT'
     } catch (err) {
@@ -52,7 +63,12 @@ function* fetchSearchResults() {
 
 function* fetchFavList() {
     try {
-        //AXIOS GET /fav table
+        const favRes = yield axios.get('/api/favorite');
+        // console.log(favRes.data)
+        yield put({
+            type: 'SET_FAVLIST',
+            payload: favRes.data
+        })
 
         //pass to favListReducer 'SET_FAVLIST'
     } catch (err) {
@@ -62,7 +78,12 @@ function* fetchFavList() {
 
 function* fetchCategories() {
     try {
-        //AXIOS GET /cat table
+        const categoryRes = yield axios.get('/api/category');
+        console.log(categoryRes.data);
+        yield put({
+            type:'SET_CATEGORIES',
+            payload: categoryRes.data
+        })
 
         //pass to categoriesReducer 'SET_CATEGORYLIST'
     } catch (err) {
