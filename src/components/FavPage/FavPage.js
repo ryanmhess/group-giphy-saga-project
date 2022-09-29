@@ -1,7 +1,11 @@
 import React from 'react';
+
 import { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useState} from 'react';
+
+import FavImageCard from '../FavImageCard/FavImageCard.js';
+
 
 function FavPage() {
    const dispatch = useDispatch();
@@ -46,6 +50,7 @@ function FavPage() {
     
     return (
         <div>
+//differences start here
         <h1>I'm the FavPage</h1>
         {favList.map(fav =>{
             return(
@@ -66,14 +71,16 @@ function FavPage() {
     </div>
             )
         })}
+//continued here
+            <h1>I'm the FavPage</h1>
+            {dummyObj.map((img, i)=>(
+                <FavImageCard key={i} image={img} />
+            ))}
+
         </div>
     );
 }
 
-// {categoryList.map(category =>{
-//     return(
-//         <p key={category.id}>{category.name}</p>
-//     )
-// })}
+
 
 export default FavPage;

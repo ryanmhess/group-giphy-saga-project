@@ -129,5 +129,3 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(<Provider store={storeInstance}><App /></Provider>, 
     document.getElementById('root'));
-
-// ReactDOM.render(<App />, document.getElementById('root'));
