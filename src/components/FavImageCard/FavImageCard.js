@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography"
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Grid from '@mui/material/Grid';
 
 function FavImageCard({ image, imageID }) {
     const dispatch = useDispatch();
@@ -39,14 +40,7 @@ function FavImageCard({ image, imageID }) {
 
     return (
         <div>
-            <Card
-                className="favImgCard"
-                sx={{maxWidth: 500}}
-                position="relative"
-            >
-                <Typography>
-                    GIPHY!
-                </Typography>
+            <Grid item xs={8} sm={4} md={3}>
                 <CardContent>
                     <img src={image}></img>
                 </CardContent>
@@ -59,7 +53,7 @@ function FavImageCard({ image, imageID }) {
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                 >
-                    🍥
+                    Select Category
 
                 </Button>
                 <Menu
@@ -81,9 +75,26 @@ function FavImageCard({ image, imageID }) {
                         </MenuItem>
                         ))}
                 </Menu>
-                </Card>
+
+            </Grid>
         </div>
     );
+
+
+//     <Grid container spacing={2}>
+//     {searchResult.map(item => (
+//         <Grid item xs={8} sm={4} md={3}>
+//             <Item key={item.id} sx={{ Width: 100, Hieght: 100}}>
+//             <Stack spacing={2} direction="column">
+//                 <img src={item.images.fixed_height_small.url}/>
+//                 <Button variant="outlined">Favorite</Button>
+//                 </Stack>
+//             </Item>
+//         </Grid>
+//     ))}
+// </Grid>
+
+
 }
 
 export default FavImageCard;

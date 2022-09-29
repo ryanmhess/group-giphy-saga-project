@@ -2,8 +2,8 @@ import React from 'react';
 
 import { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-
 import FavImageCard from '../FavImageCard/FavImageCard.js';
+import Grid from '@mui/material/Grid';
 
 
 function FavPage() {
@@ -34,9 +34,11 @@ function FavPage() {
     return (
         <div>
             <h1>I'm the FavPage</h1>
-            {favList.map(fav=>(
-                <FavImageCard key={fav.id} image={fav.url} imageID={fav.id}/>
-            ))}
+            <Grid container spacing={2}>
+                {favList.map(fav=>(
+                    <FavImageCard key={fav.id} image={fav.url} imageID={fav.id}/>
+                ))}
+            </Grid>
         </div>
     )
 }
