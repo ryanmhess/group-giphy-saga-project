@@ -21,7 +21,7 @@ INSERT INTO "category"
 -- Category table
 CREATE TABLE "favs" (
     "id" SERIAL PRIMARY KEY,
-    "url" VARCHAR (100) NOT NULL,
+    "url" VARCHAR NOT NULL,
     "cat_id" INT DEFAULT NULL
 );
 
