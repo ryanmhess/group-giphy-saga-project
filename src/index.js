@@ -86,11 +86,17 @@ function* fetchCategories() {
     }
 }
 
-function* addImageToFav() {
+function* addImageToFav(action) {
     try {
         //AXIOS POST to /fav table
             //payload is 'url' (?)
-
+        console.log('In addImageToFav generator.');
+        const url = action.payload
+        yield axios({
+            method: 'POST',
+            url: '/api/favorite',
+            data: { url }
+        });
         //pass to searchResultReducer 'SET_FAV_LIST' ???? do we do this after POST?
     } catch (err) {
         console.log('err');
