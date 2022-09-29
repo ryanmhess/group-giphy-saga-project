@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
 
 // update given favorite with a category id
 router.put('/:favId', (req, res) => {
-  const categoryID = req.body.selected //category ID
+  const categoryID = req.body.catID //category ID
   const imageId = req.params.favId //this is for put
 
   const queryText = `
@@ -33,7 +33,7 @@ router.put('/:favId', (req, res) => {
   pool.query(queryText, queryValues)
   .then(() => { res.sendStatus(201); })
     .catch((err) => {
-      console.log('Error completing SELECT plant query', err);
+      console.log('Error completing PUT /:favID query', err);
       res.sendStatus(500);
     });
 });

@@ -12,29 +12,29 @@ import MenuItem from '@mui/material/MenuItem';
 function FavImageCard({ image, imageID }) {
     const dispatch = useDispatch();
     const categoryList = useSelector(store => store.categoriesReducer);
-    const [selected, setSelected] = useState('');
 
     //MUI buttonstuff
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleClose = () => {
+    const handleClose = (event) => {
+
         setAnchorEl(null);
     };
+    const handleSelectCategory = (event) => {
 
+        setImageCategory(event.target.value);
+        setAnchorEl(null);
+    }
     //for PUT route to change category
     //Called on Button click"
-    const setImageCategory = (event) => {
-        event.preventDefault();
-        // console.log(selected);
+    const setImageCategory = (catID) => {
         dispatch({
             type: 'SAGA.SET_CATEGORY',
-            payload: {selected, imageID}
-
+            payload: {catID, imageID}
         })
-        setSelected(''); //is there where I reset it?  Do I need to?
     }
 
     return (
@@ -75,7 +75,7 @@ function FavImageCard({ image, imageID }) {
                         <MenuItem
                             key={category.id}
                             value={category.id}
-                            onClick={handleClose}
+                            onClick={handleSelectCategory}
                         >
                             {category.name}
                         </MenuItem>
@@ -84,38 +84,6 @@ function FavImageCard({ image, imageID }) {
                 </Card>
         </div>
     );
-{   /*formatting from SEARCHPAGE
-    /* <Paper elevation={7} color="secondary">
-                <TextField id="outlined-basic" label="Search" variant="outlined" onChange ={event => setSearchValue(event.target.value)}/>
-                <Button variant="outlined" onClick={searchGifs}>Submit</Button>   
-            <Grid container spacing={2}>
-                {searchResult.map(item => (
-                    <Grid item xs={8} sm={4} md={3}>
-                        <Item key={item.id} sx={{ Width: 100, Height: 100}}>
-                        <Stack spacing={2} direction="column">
-                            <img src={item.images.fixed_height_small.url}/>
-                            <Button variant="outlined">Favorite</Button>
-                            </Stack>
-                        </Item>
-                    </Grid>
-                ))}
-            </Grid>
-            </Paper> */}
-
-{/* EVERYTHING BElOW HERE WORKS
-                <form>
-                    <select
-                        value={selected}
-                        onChange={e => setSelected(e.target.value)}>
-                        {categoryList.map((category) => (
-                            <option value={category.id} key={category.id}>
-                                {category.name}
-                            </option>
-                        ))}
-                    </select>
-                    <button type="button" onClick={setImageCategory}> Submit</button>
-                </form> */}
- 
 }
 
 export default FavImageCard;
