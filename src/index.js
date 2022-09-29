@@ -102,15 +102,18 @@ function* addImageToFav() {
     }
 }
 
-function* setImageCategory() {
+function* setImageCategory(action) {
+    // const cat_id =  action.payload.selected;
+    const id = action.payload.imageID;
+    const updateObject = action.payload
+    //will break down object in server instead
     try {
-        ////triggers AXIOS PUT /fav table
-            //payload is {img_id, cat_id} (?)
-
-        //pass to searchResultReducer 'SET_CATEGORYILST' ???? do we do this after PUT?
+        yield axios.put(`/api/favorite/${id}`, updateObject)
+        
     } catch (err) {
-        console.log('err');
-    }
+        console.log('err', err);
+    };
+  
 }
 
 

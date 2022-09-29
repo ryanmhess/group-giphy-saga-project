@@ -35,7 +35,7 @@ function FavPage() {
         <div>
             <h1>I'm the FavPage</h1>
             {favList.map(fav=>(
-                <FavImageCard key={fav.id} image={fav.url}/>
+                <FavImageCard key={fav.id} image={fav.url} imageID={fav.id}/>
             ))}
         </div>
     )

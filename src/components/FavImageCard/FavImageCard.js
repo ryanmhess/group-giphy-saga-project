@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-function FavImageCard({ image }) {
+function FavImageCard({ image, imageID }) {
     const dispatch = useDispatch();
     const categoryList = useSelector(store => store.categoriesReducer);
     const [selected, setSelected] = useState('');
@@ -26,11 +26,15 @@ function FavImageCard({ image }) {
 
     //for PUT route to change category
     //Called on Button click"
-    const setImageCategory = () => {
-        console.log(selected);
+    const setImageCategory = (event) => {
+        event.preventDefault();
+        // console.log(selected);
         dispatch({
-            type: 'SAGA.SET_CATEGORY'
+            type: 'SAGA.SET_CATEGORY',
+            payload: {selected, imageID}
+
         })
+        setSelected(''); //is there where I reset it?  Do I need to?
     }
 
     return (
