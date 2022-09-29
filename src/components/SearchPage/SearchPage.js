@@ -20,7 +20,7 @@ function SearchPage() {
     }));
 
     const searchResult = useSelector(store => store.searchResultReducer);
-
+    
     const dispatch = useDispatch();
     const [searchValue, setSearchValue] = useState('');
 
@@ -32,6 +32,14 @@ function SearchPage() {
         })
     }
 
+    const favoriteThis = (url) => {
+        console.log(url);
+        dispatch({
+            type: 'SAGA.CREATE_FAV',
+            payload: url
+        })
+    }
+
     return (
         <Box>
             <h1>I'm the SearchPage</h1>
@@ -40,11 +48,11 @@ function SearchPage() {
                 <Button variant="outlined" onClick={searchGifs}>Submit</Button>   
             <Grid container spacing={2}>
                 {searchResult.map(item => (
-                    <Grid item xs={8} sm={4} md={3}>
-                        <Item key={item.id} sx={{ Width: 100, Hieght: 100}}>
-                        <Stack spacing={2} direction="column">
-                            <img src={item.images.fixed_height_small.url}/>
-                            <Button variant="outlined">Favorite</Button>
+                    <Grid key={item.id} item xs={8} sm={4} md={3}>
+                        <Item  sx={{ Width: 100, Hieght: 100}}>
+                            <Stack spacing={2} direction="column">
+                                <img src={item.images.original.url}/>
+                                <Button variant="outlined" onClick={(event) => favoriteThis(item.images.original.url)}>Favorite</Button>
                             </Stack>
                         </Item>
                     </Grid>
