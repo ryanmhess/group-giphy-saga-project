@@ -33,8 +33,12 @@ const favListReducer = (state = [], action) => {
 };
 
 const categoriesReducer = (state = [], action) => {
-    // 'SET_CATEGORYLIST' ???
-    return state
+    switch(action.type){
+        case 'SET_CATEGORIES':
+            return action.payload
+        default:
+            return state;
+    }
 }
 
 //SAGAS
@@ -60,7 +64,7 @@ function* fetchSearchResults() {
 function* fetchFavList() {
     try {
         const favRes = yield axios.get('/api/favorite');
-        console.log(favRes.data)
+        // console.log(favRes.data)
         yield put({
             type: 'SET_FAVLIST',
             payload: favRes.data
@@ -74,7 +78,12 @@ function* fetchFavList() {
 
 function* fetchCategories() {
     try {
-        //AXIOS GET /cat table
+        const categoryRes = yield axios.get('/api/category');
+        console.log(categoryRes.data);
+        yield put({
+            type:'SET_CATEGORIES',
+            payload: categoryRes.data
+        })
 
         //pass to categoriesReducer 'SET_CATEGORYLIST'
     } catch (err) {

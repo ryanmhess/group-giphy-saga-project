@@ -9,12 +9,23 @@ function FavPage() {
 
     useEffect(() => {
         fetchFavList();
+        fetchCategories(); //does this make sense here?
     }, []);
 
+    //to GET the current FAV LIST
     const fetchFavList = () =>{
         dispatch({
             type: 'SAGA.FETCH_FAVLIST' 
         })
+    }
+
+    //to get the category data from category table
+    //sending to reducer
+    const fetchCategories =() => {
+        dispatch({
+            type: 'SAGA.FETCH_CATEGORIES'
+        })
+
     }
 
 
