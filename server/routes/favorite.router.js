@@ -2,13 +2,11 @@ const express = require('express');
 const pool = require('../modules/pool');
 
 const router = express.Router();
-// SELECT * FROM FAVS
 // return all favorite images
 router.get('/', (req, res) => {
-  const queryText = `SELECT favs.id, favs.url, category.name FROM favs
-  LEFT JOIN category
-    ON favs.cat_id = category.id 
-    ORDER BY id ASC`;
+  const queryText = `
+    SELECT * FROM favs
+      ORDER BY id ASC`;
   pool.query(queryText)
   .then((result) => {res.send(result.rows);
     console.log('LOOK AT ME', result.rows);})
@@ -39,19 +37,23 @@ router.post('/', (req, res) => {
 });
 
 // update given favorite with a category id
-router.put('/:favId', (req, res) => {
-  const categoryID = req.body.catID //category ID
-  const imageId = req.params.favId //this is for put
+router.post('/derp', (req, res) => {
+  console.log(req.body);
+  const categoryId = req.body.catID //category ID
+  const imageId = req.body.imageID //this is for put
+  console.log(imageId);
 
   const queryText = `
-          UPDATE favs
-          SET cat_id = $1
-          WHERE id=$2`
-  const queryValues = [categoryID, imageId]
+          INSERT INTO favs_category
+          ("favs_id", "cat_id")
+          VALUES        
+          ($1, $2)
+  `
+  const queryValues = [imageId, categoryId]
   pool.query(queryText, queryValues)
   .then(() => { res.sendStatus(201); })
     .catch((err) => {
-      console.log('Error completing PUT /:favID query', err);
+      console.log('Error completing POST /favorite/derp query', err);
       res.sendStatus(500);
     });
 });
