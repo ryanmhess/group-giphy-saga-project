@@ -2,12 +2,16 @@ const express = require('express');
 const pool = require('../modules/pool');
 
 const router = express.Router();
-
+// SELECT * FROM FAVS
 // return all favorite images
 router.get('/', (req, res) => {
-  const queryText = 'SELECT * FROM FAVS';
+  const queryText = `SELECT favs.id, favs.url, category.name FROM favs
+  LEFT JOIN category
+    ON favs.cat_id = category.id 
+    ORDER BY id ASC`;
   pool.query(queryText)
-  .then((result) => {res.send(result.rows);})
+  .then((result) => {res.send(result.rows);
+    console.log('LOOK AT ME', result.rows);})
   // res.sendStatus(200);
   .catch((err) => {
     console.log('error in favorite get route', err);

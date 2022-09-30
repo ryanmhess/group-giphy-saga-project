@@ -5,7 +5,10 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   // return all categories
-  const queryText = `SELECT * FROM category ORDER BY name ASC`;
+  const queryText = `
+    SELECT * FROM category 
+      ORDER BY name ASC
+    `;
   pool
     .query(queryText)
     .then((result) => {

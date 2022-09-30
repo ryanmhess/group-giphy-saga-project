@@ -5,9 +5,24 @@ import {useDispatch, useSelector} from 'react-redux';
 import FavImageCard from '../FavImageCard/FavImageCard.js';
 import Grid from '@mui/material/Grid';
 
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 
 function FavPage() {
-   const dispatch = useDispatch();
+
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    }));
+    
+    const dispatch = useDispatch();
     const favList = useSelector(store => store.favListReducer);
     //will use above to get favs after I GET/set them
 
@@ -32,14 +47,19 @@ function FavPage() {
     }
 
     return (
-        <div>
+        <Box>
             <h1>I'm the FavPage</h1>
             <Grid container spacing={2}>
                 {favList.map(fav=>(
-                    <FavImageCard key={fav.id} image={fav.url} imageID={fav.id}/>
+                    <Grid key={fav.id} item xs={8} sm={4} md={3}>
+                        <Item  sx={{ Width: 100, Hieght: 100}}>
+                            Category: {fav.name}
+                            <FavImageCard key={fav.id} image={fav.url} imageID={fav.id}/>
+                        </Item>
+                    </Grid>
                 ))}
             </Grid>
-        </div>
+        </Box>
     )
 }
 
