@@ -53,7 +53,7 @@ function FavPage() {
                 {favList.map(fav=>(
                     <Grid key={fav.id} item xs={8} sm={4} md={3}>
                         <Item  sx={{ Width: 100, Hieght: 100}}>
-                            Category: {fav.name}
+                            Category: 
                             <FavImageCard key={fav.id} image={fav.url} imageID={fav.id}/>
                         </Item>
                     </Grid>

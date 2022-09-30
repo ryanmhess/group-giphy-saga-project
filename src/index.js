@@ -126,16 +126,16 @@ function* addImageToFav(action) {
 
 function* setImageCategory(action) {
     // const cat_id =  action.payload.selected;
+    console.log(action.payload);
     const id = action.payload.imageID;
     const updateObject = action.payload
     //will break down object in server instead
     try {
-        yield axios.put(`/api/favorite/${id}`, updateObject)
+        yield axios.post(`/api/favorite/derp`, updateObject)
         
     } catch (err) {
         console.log('err', err);
     };
-  
 }
 
 
