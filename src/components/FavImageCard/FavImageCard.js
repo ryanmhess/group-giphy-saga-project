@@ -25,7 +25,6 @@ function FavImageCard({ image, imageID }) {
         setAnchorEl(null);
     };
     const handleSelectCategory = (event) => {
-
         setImageCategory(event.target.value);
         setAnchorEl(null);
     }
@@ -44,17 +43,8 @@ function FavImageCard({ image, imageID }) {
                 <CardContent>
                     <img src={image}></img>
                 </CardContent>
-                <Button
-                    position="absolute"
-                    id="basic-button"
-                    className="categorySelectorButton"
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
-                >
+                <Button position="absolute" id="basic-button" className="categorySelectorButton" aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
                     Select Category
-
                 </Button>
                 <Menu
                     id="basic-menu"
